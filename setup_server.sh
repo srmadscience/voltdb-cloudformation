@@ -41,3 +41,21 @@ then
 
         echo UUID=${UUID} $MOUNTPOINT   ext4    defaults,nofail        0       2 >> /etc/fstab
 fi
+
+if
+        [ ! -r ${MOUNTPOINT}/voltdbroot ]
+then
+        echo Creating ${MOUNTPOINT}/voltdbroot...
+        mkdir ${MOUNTPOINT}/voltdbroot
+fi
+
+if
+        [ ! -r ${MOUNTPOINT}/voltdbroot/profile_voltdb ]
+then
+        echo Creating ${MOUNTPOINT}/voltdbroot/profile_voltdb...
+        echo VDB_LEADER=$1 > ${MOUNTPOINT}/voltdbroot/profile_voltdb
+        echo VDB_HOSTS=$1,$2,$3 >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
+        chmod 755 ${MOUNTPOINT}/voltdbroot/profile_voltdb
+fi
+
+
