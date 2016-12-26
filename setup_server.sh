@@ -80,4 +80,11 @@ then
         chmod 755 ${MOUNTPOINT}/voltdbroot/profile_voltdb
 fi
 
+if  
+       [ ! -r ${MOUNTPOINT}/config.xml ]
+then
+       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configml_template > ${MOUNTPOINT}/config.xml
+fi
+
+
 
