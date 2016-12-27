@@ -48,7 +48,7 @@ echo 'Y' | apt upgrade
 if
         [ ! -d ${MOUNTPOINT} ]
 then
-        echo Creating ${XS} {MOUNTPOINT} mount point... ${XE}
+        echo Creating ${XS} ${MOUNTPOINT} mount point... ${XE}
         mkdir ${MOUNTPOINT}
 fi
 
