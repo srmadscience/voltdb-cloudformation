@@ -82,13 +82,26 @@ then
         echo export VDB_LEADER >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
         echo export VDB_HOSTS >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
         chmod 755 ${MOUNTPOINT}/voltdbroot/profile_voltdb
+        
+        if
+              [ "`grep profile_voltdb $HOME/.bashrc`" = "" ]
+        then
+              echo ${XS} Adding call to  ${MOUNTPOINT}/voltdbroot/profile_voltdb to $HOME/.bashrc ... ${XE}
+              echo \# >>  $HOME/.bashrc
+              echo \# VoltDB specific stuff >>  $HOME/.bashrc
+              echo \# >>  $HOME/.bashrc
+
+              echo "if [ -f \"/voltdbdata/voltdbroot/profile_voltdb\" ]; then" >>  $HOME/.bashrc
+              echo "  . /voltdbdata/voltdbroot/profile_voltdb" >>  $HOME/.bashrc
+              echo "fi" >>  $HOME/.bashrc
+        fi
 fi
 
 if  
-       [ ! -r ${MOUNTPOINT}/config.xml ]
+       [ ! -r ${MOUNTPOINT}/voltdbroot/config.xml ]
 then
-       echo ${XS} Creating ${MOUNTPOINT}/config.xml... ${XE}
-       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configml_template > ${MOUNTPOINT}/config.xml
+       echo ${XS} Creating ${MOUNTPOINT}/voltdbroot/config.xml... ${XE}
+       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configml_template > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
 
 
