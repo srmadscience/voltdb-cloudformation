@@ -92,8 +92,12 @@ if
 then
         echo ${XS} Creating ${MOUNTPOINT}/voltdbroot/profile_voltdb... ${XE}
         echo VDB_LEADER=$1 > ${MOUNTPOINT}/voltdbroot/profile_voltdb
+        echo VDB_HOST2=$2 >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
+        echo VDB_HOST3=$3 >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
         echo VDB_HOSTS=$1,$2,$3 >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
         echo export VDB_LEADER >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
+        echo export VDB_HOST2 >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
+        echo export VDB_HOST3 >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
         echo export VDB_HOSTS >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
         chmod 755 ${MOUNTPOINT}/voltdbroot/profile_voltdb
         
