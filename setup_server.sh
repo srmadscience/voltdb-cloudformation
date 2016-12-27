@@ -133,7 +133,7 @@ then
        | sed '1,$s/'PARAM_CMDLOG_ENABLED'/'${CMDLOG}'/g' \
        | sed '1,$s/'PARAM_SYNC'/'true'/g' \
        | sed '1,$s_'PARAM_CMDLOGDIR'_'${KFACTOR}'_g' \
-       | sed '1,$s_'PARAM_CMDLOG_SNAPSHOT'_'${KFACTOR}'_g' \
+       | sed '1,$s_'PARAM_CMDLOGSNAPSHOT'_'${KFACTOR}'_g' \
        | sed '1,$s_'PARAM_SNAPSHOTS'_'${KFACTOR}'_g' \
        > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
