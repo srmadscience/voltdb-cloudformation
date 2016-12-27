@@ -39,7 +39,7 @@ You may change this and rerun the initialization step by running
   </users>
   <security enabled="true"/>
   <paths>
-    <commandlog path="PARAM_CMDLOGDIR" enabled="PARAM_CMDLOG_ENABLED" synchronous="true">
+    <commandlog path="PARAM_CMDLOGDIR" enabled="PARAM_CMDLOG_ENABLED" synchronous="PARAM_SYNC">
     <commandlogsnapshot path="PARAM_CMDLOG_SNAPSHOT">
     <snapshots path="PARAM_SNAPSHOTS">
   </paths>
