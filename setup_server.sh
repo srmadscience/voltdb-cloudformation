@@ -98,16 +98,16 @@ then
         chmod 755 ${MOUNTPOINT}/voltdbroot/profile_voltdb
         
         if
-              [ "`grep profile_voltdb $HOME/.bashrc`" = "" ]
+              [ "`grep profile_voltdb /home/ubuntu/.bashrc`" = "" ]
         then
               echo ${XS} Adding call to  ${MOUNTPOINT}/voltdbroot/profile_voltdb to $HOME/.bashrc ... ${XE}
-              echo \# >>  $HOME/.bashrc
-              echo \# VoltDB specific stuff >>  $HOME/.bashrc
-              echo \# >>  $HOME/.bashrc
+              echo \# >>   /home/ubuntu/.bashrc
+              echo \# VoltDB specific stuff >>  /home/ubuntu/.bashrc
+              echo \# >>   /home/ubuntu/.bashrc
 
-              echo "if [ -f \"/voltdbdata/voltdbroot/profile_voltdb\" ]; then" >>  $HOME/.bashrc
-              echo "  . /voltdbdata/voltdbroot/profile_voltdb" >>  $HOME/.bashrc
-              echo "fi" >>  $HOME/.bashrc
+              echo "if [ -f \"/voltdbdata/voltdbroot/profile_voltdb\" ]; then" >>   /home/ubuntu/.bashrc
+              echo "  . /voltdbdata/voltdbroot/profile_voltdb" >>   /home/ubuntu/.bashrc
+              echo "fi" >>   /home/ubuntu/.bashrc
         fi
 fi
 
