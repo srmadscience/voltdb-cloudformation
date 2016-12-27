@@ -77,6 +77,8 @@ then
         echo Creating ${MOUNTPOINT}/voltdbroot/profile_voltdb...
         echo VDB_LEADER=$1 > ${MOUNTPOINT}/voltdbroot/profile_voltdb
         echo VDB_HOSTS=$1,$2,$3 >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
+        echo export VDB_LEADER >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
+        echo export VDB_HOSTS >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
         chmod 755 ${MOUNTPOINT}/voltdbroot/profile_voltdb
 fi
 
