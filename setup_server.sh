@@ -29,6 +29,8 @@ then
        exit 1
 fi
  
+touch PLEASE_WAIT.txt
+
 KFACTOR=$4
 CMDLOGGING=$5
 PASSWD=$6
@@ -113,8 +115,28 @@ if
        [ ! -r ${MOUNTPOINT}/voltdbroot/config.xml ]
 then
        echo ${XS} Creating ${MOUNTPOINT}/voltdbroot/config.xml... ${XE}
-       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configxml_template | sed '1,$s/'PARAM_KFACTOR'/'${KFACTOR}'/g' > ${MOUNTPOINT}/voltdbroot/config.xml
+       
+       PARAM_CMDLOGDIR=${MOUNTPOINT}/voltdbroot/cmdlog
+       PARAM_CMDLOG_SNAPSHOT=${MOUNTPOINT}/voltdbroot/cmdlogsnapshot
+       PARAM_SNAPSHOTS=${MOUNTPOINT}/voltdbroot/snapshots
+       
+       for i in $PARAM_CMDLOGDIR $PARAM_CMDLOG_SNAPSHOT $PARAM_SNAPSHOTS
+       do
+              mkdir -p ${i}
+              chown ubuntu $i
+       done
+       
+       
+       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configxml_template \
+       | sed '1,$s/'PARAM_PASSWORD'/'${PASSWD}'/g' \
+       | sed '1,$s/'PARAM_KFACTOR'/'${KFACTOR}'/g' \
+       | sed '1,$s/'PARAM_CMDLOG_ENABLED'/'${CMDLOG}'/g' \
+       | sed '1,$s/'PARAM_SYNC'/'true'/g' \
+       | sed '1,$s_'PARAM_CMDLOGDIR'_'${KFACTOR}'_g' \
+       | sed '1,$s_'PARAM_CMDLOG_SNAPSHOT'_'${KFACTOR}'_g' \
+       | sed '1,$s_'PARAM_SNAPSHOTS'_'${KFACTOR}'_g' \
+       > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
 
-
+rm PLEASE_WAIT.txt
 
