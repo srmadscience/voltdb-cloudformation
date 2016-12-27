@@ -22,6 +22,8 @@
 #  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #  OTHER DEALINGS IN THE SOFTWARE.
  
+XS="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n\n"
+XE="\n\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 DEVICE=/dev/xvdf
 MOUNTPOINT=/voltdbdata
 
@@ -34,28 +36,28 @@ echo 'Y' | apt upgrade
 if
         [ ! -d ${MOUNTPOINT} ]
 then
-        echo Creating ${MOUNTPOINT} moubt point...
+        echo Creating ${XS} {MOUNTPOINT} mount point... ${XE}
         mkdir ${MOUNTPOINT}
 fi
 
 if
         [ "`file -s ${DEVICE}`" = "${DEVICE}: data" ]
 then
-        echo Creating filesystem on ${DEVICE}...
+        echo ${XS} Creating filesystem on ${DEVICE}... ${XE}
         mkfs -t ext4  ${DEVICE}
 fi
 
 if
         [ "`df -k | grep xvdf`" = "" ]
 then
-        echo Mounting ${DEVICE}...
+        echo ${XS} Mounting ${DEVICE}... ${XE}
         mount ${DEVICE} ${MOUNTPOINT}
 fi
 
 if
         [ "`grep ${DEVICE} /etc/fstab`" = "" ]
 then
-        echo Creating fstab entry for ${DEVICE}...
+        echo ${XS} Creating fstab entry for ${DEVICE}... ${XE}
         cp /etc/fstab /etc/fstab.`date '+%y%m%d_%H%M'`
 
         UUID=`sudo file -s ${DEVICE} | awk -F= '{ print $2}' | awk {'print $1}'`
@@ -67,14 +69,14 @@ fi
 if
         [ ! -r ${MOUNTPOINT}/voltdbroot ]
 then
-        echo Creating ${MOUNTPOINT}/voltdbroot...
+        echo ${XS} Creating ${MOUNTPOINT}/voltdbroot... ${XE}
         mkdir ${MOUNTPOINT}/voltdbroot
 fi
 
 if
         [ ! -r ${MOUNTPOINT}/voltdbroot/profile_voltdb ]
 then
-        echo Creating ${MOUNTPOINT}/voltdbroot/profile_voltdb...
+        echo ${XS} Creating ${MOUNTPOINT}/voltdbroot/profile_voltdb... ${XE}
         echo VDB_LEADER=$1 > ${MOUNTPOINT}/voltdbroot/profile_voltdb
         echo VDB_HOSTS=$1,$2,$3 >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
         echo export VDB_LEADER >> ${MOUNTPOINT}/voltdbroot/profile_voltdb
@@ -85,6 +87,7 @@ fi
 if  
        [ ! -r ${MOUNTPOINT}/config.xml ]
 then
+       echo ${XS} Creating ${MOUNTPOINT}/config.xml... ${XE}
        curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configml_template > ${MOUNTPOINT}/config.xml
 fi
 
