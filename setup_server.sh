@@ -130,11 +130,11 @@ then
        curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configxml_template \
        | sed '1,$s/'PARAM_PASSWORD'/'${PASSWD}'/g' \
        | sed '1,$s/'PARAM_KFACTOR'/'${KFACTOR}'/g' \
-       | sed '1,$s/'PARAM_CMDLOG_ENABLED'/'${CMDLOG}'/g' \
-       | sed '1,$s/'PARAM_SYNC'/'true'/g' \
-       | sed '1,$s_'PARAMCMDLOGDIR'_'${KFACTOR}'_g' \
-       | sed '1,$s_'PARAMCMDLOGSNAPSHOT'_'${KFACTOR}'_g' \
-       | sed '1,$s_'PARAMSNAPSHOTS'_'${KFACTOR}'_g' \
+       | sed '1,$s/'PARAM_CMDLOG_ENABLED'/'${CMDLOGGING}'/g' \
+       | sed '1,$s/'PARAM_SYNC'/'false'/g' \
+       | sed '1,$s_'PARAMCMDLOGDIR'_'${PARAM_CMDLOGDIR}'_g' \
+       | sed '1,$s_'PARAMCMDLOGSNAPSHOT'_'${PARAM_CMDLOG_SNAPSHOT}'_g' \
+       | sed '1,$s_'PARAMSNAPSHOTS'_'${PARAM_SNAPSHOTS}'_g' \
        > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
 
