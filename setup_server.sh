@@ -113,7 +113,7 @@ if
        [ ! -r ${MOUNTPOINT}/voltdbroot/config.xml ]
 then
        echo ${XS} Creating ${MOUNTPOINT}/voltdbroot/config.xml... ${XE}
-       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configml_template | sed '1,$s/'PARAM_KFACTOR'/'${KFACTOR}'/g' > ${MOUNTPOINT}/voltdbroot/config.xml
+       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configxml_template | sed '1,$s/'PARAM_KFACTOR'/'${KFACTOR}'/g' > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
 
 
