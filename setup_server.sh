@@ -29,7 +29,7 @@ then
        exit 1
 fi
  
-touch PLEASE_WAIT.txt
+touch /home/ubuntu/PLEASE_WAIT.txt
 
 KFACTOR=$4
 CMDLOGGING=$5
@@ -174,5 +174,5 @@ fi
 
 
 
-rm PLEASE_WAIT.txt
+rm /home/ubuntu/PLEASE_WAIT.txt
 
