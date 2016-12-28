@@ -160,8 +160,9 @@ echo voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/c
 ls -alR ${MOUNTPOINT}/voltdbroot
 cat  /voltdbdata/voltdbroot/log/volt.log 
 
+crontab -l > /dev/null
 if 
-       [ "`crontab -l`" == "" ]
+       [ "$?" == "1" ]
 then
        echo ${XS} Creating crontab... ${XE}
        curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/ubuntu.crontab  > /home/ubuntu/ubuntu.crontab
