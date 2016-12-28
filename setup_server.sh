@@ -36,7 +36,7 @@ CMDLOGGING=$5
 PASSWD=$6
 DEMOPARAM=$7
 
-XS="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n\n"
+XS="\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n\n"
 XE="\n\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 DEVICE=/dev/xvdf
 MOUNTPOINT=/voltdbdata
@@ -143,6 +143,15 @@ then
        | sed '1,$s_'PARAMCMDLOGSNAPSHOT'_'${PARAM_CMDLOG_SNAPSHOT}'_g' \
        | sed '1,$s_'PARAMSNAPSHOTS'_'${PARAM_SNAPSHOTS}'_g' \
        > ${MOUNTPOINT}/voltdbroot/config.xml
+fi
+
+if 
+       [ ! -r start_voltdb_if_needed.sh ]
+then
+       echo ${XS} Creating start_voltdb_if_needed.sh... ${XE}
+       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/start_voltdb_if_needed.sh  > start_voltdb_if_needed.sh
+       chown ubuntu start_voltdb_if_needed.sh
+       chmod 755 start_voltdb_if_needed.sh
 fi
 
 echo ${XS} Calling voltdb init... ${XE}
