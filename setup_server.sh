@@ -145,5 +145,7 @@ then
        > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
 
+voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml
+
 rm PLEASE_WAIT.txt
 
