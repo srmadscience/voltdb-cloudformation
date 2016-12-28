@@ -120,11 +120,14 @@ if
 then
        echo ${XS} Creating ${MOUNTPOINT}/voltdbroot/config.xml... ${XE}
        
+       mkdir ${MOUNTPOINT}/voltdbroot
+       chown ubuntu ${MOUNTPOINT}/voltdbroot
+       
        PARAM_CMDLOGDIR=${MOUNTPOINT}/voltdbroot/cmdlog
        PARAM_CMDLOG_SNAPSHOT=${MOUNTPOINT}/voltdbroot/cmdlogsnapshot
        PARAM_SNAPSHOTS=${MOUNTPOINT}/voltdbroot/snapshots
        
-       for i in $PARAM_CMDLOGDIR $PARAM_CMDLOG_SNAPSHOT $PARAM_SNAPSHOTS
+       for i in $PARAM_CMDLOGDIR $PARAM_CMDLOG_SNAPSHOT $PARAM_SNAPSHOTS log
        do
               mkdir -p ${i}
               chown ubuntu $i
