@@ -149,6 +149,7 @@ echo ${XS} Calling voltdb init... ${XE}
 # Avoid issues with params and su by echo-ing in...
 echo voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml | su - ubuntu
 ls -alR ${MOUNTPOINT}/voltdbroot
+cat  /voltdbdata/voltdbroot/log/volt.log 
 
 rm PLEASE_WAIT.txt
 
