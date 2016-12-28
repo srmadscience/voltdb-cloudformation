@@ -1,5 +1,6 @@
 #!/bin/sh
 
+. /home/ubuntu/.profile
 . /voltdbdata/voltdbroot/profile_voltdb
 
 MOUNTPOINT=/voltdbdata
