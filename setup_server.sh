@@ -162,7 +162,7 @@ cat  /voltdbdata/voltdbroot/log/volt.log
 
 crontab -u ubuntu -l > /dev/null
 if 
-       [ "$?" == "1" ]
+       [ "$?" = "1" ]
 then
        echo ${XS} Creating crontab... ${XE}
        curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/ubuntu.crontab  > /home/ubuntu/ubuntu.crontab
