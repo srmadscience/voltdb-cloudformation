@@ -146,12 +146,12 @@ then
 fi
 
 if 
-       [ ! -r start_voltdb_if_needed.sh ]
+       [ ! -r /home/ubuntu/start_voltdb_if_needed.sh ]
 then
        echo ${XS} Creating start_voltdb_if_needed.sh... ${XE}
-       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/start_voltdb_if_needed.sh  > start_voltdb_if_needed.sh
-       chown ubuntu start_voltdb_if_needed.sh
-       chmod 755 start_voltdb_if_needed.sh
+       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/start_voltdb_if_needed.sh  > /home/ubuntu/start_voltdb_if_needed.sh
+       chown ubuntu /home/ubuntu/start_voltdb_if_needed.sh
+       chmod 755 /home/ubuntu/start_voltdb_if_needed.sh
 fi
 
 echo ${XS} Calling voltdb init... ${XE}
