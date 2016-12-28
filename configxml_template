@@ -38,9 +38,5 @@ You may change this and rerun the initialization step by running
     <user name="admin" roles="administrator" password="PARAM_PASSWORD" />
   </users>
   <security enabled="true"/>
-  <paths>
-    <commandlog path="PARAMCMDLOGDIR" enabled="PARAM_CMDLOG_ENABLED" synchronous="PARAM_SYNC">
-    <commandlogsnapshot path="PARAMCMDLOGSNAPSHOT">
-    <snapshots path="PARAMSNAPSHOTS">
-  </paths>
+  <commandlog enabled="PARAM_CMDLOG_ENABLED" synchronous="PARAM_SYNC"/>
 </deployment>
