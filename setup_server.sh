@@ -127,11 +127,11 @@ then
        PARAM_CMDLOG_SNAPSHOT=${MOUNTPOINT}/voltdbroot/cmdlogsnapshot
        PARAM_SNAPSHOTS=${MOUNTPOINT}/voltdbroot/snapshots
        
-       for i in $PARAM_CMDLOGDIR $PARAM_CMDLOG_SNAPSHOT $PARAM_SNAPSHOTS log
-       do
-              mkdir -p ${i}
-              chown ubuntu $i
-       done
+ #      for i in $PARAM_CMDLOGDIR $PARAM_CMDLOG_SNAPSHOT $PARAM_SNAPSHOTS log
+ #      do
+ #             mkdir -p ${i}
+ #             chown ubuntu $i
+ #      done
        
        
        curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configxml_template \
