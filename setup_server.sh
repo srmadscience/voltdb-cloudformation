@@ -145,7 +145,9 @@ then
        > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
 
-voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml
+echo ${XS} Calling voltdb init... ${XE}
+su - ubuntu voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml
+ls -alR ${MOUNTPOINT}/voltdbroot
 
 rm PLEASE_WAIT.txt
 
