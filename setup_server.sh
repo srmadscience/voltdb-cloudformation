@@ -23,9 +23,9 @@
 #  OTHER DEALINGS IN THE SOFTWARE.
 
 if
-       [ $# != 8 ]
+       [ $# != 9 ]
 then
-       echo Usage: sudo server.sh ip1 ip2 ip3 kfactor cmdlogging password demotype
+       echo Usage: sudo server.sh ip1 ip2 ip3 kfactor cmdlogging password demotype instancetype
        exit 1
 fi
  
@@ -35,6 +35,7 @@ KFACTOR=$4
 CMDLOGGING=$5
 PASSWD=$6
 DEMOPARAM=$7
+INSTANCETYPE=$8
 
 XS="\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n\n"
 XE="\n\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -132,17 +133,26 @@ then
        PARAM_SNAPSHOTS=${MOUNTPOINT}/voltdbroot/snapshots
        
        # Calculate sitesperhost
-       CPU_COUNT=`cat /proc/cpuinfo | grep processor | wc -l`
-       CPU_COUNT=`expr $CPU_COUNT \* 3`
-       CPU_COUNT=`expr $CPU_COUNT / 4`
-       SIBLING_COUNT=`cat /proc/cpuinfo | grep siblings | head -1  | awk -F: '{ print $2}'`
-       SITESPERHOST=`expr $CPU_COUNT / $SIBLING_COUNT`
-
+       SITESPERHOST=8
+       
        if
-              [ "$SITESPERHOST" -lt 8 ]
+              [ "$INSTANCETYPE" = "m4.4xlarge" ]
        then
               SITESPERHOST=8
        fi
+       
+       if
+              [ "$INSTANCETYPE" = "m4.10xlarge" ]
+       then
+              SITESPERHOST=16
+       fi
+       
+       if
+              [ "$INSTANCETYPE" = "m4.16xlarge" ]
+       then
+              SITESPERHOST=16
+       fi
+
        
        curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configxml_template \
        | sed '1,$s/'PARAM_PASSWORD'/'${PASSWD}'/g' \
