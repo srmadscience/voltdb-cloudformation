@@ -152,7 +152,7 @@ then
        | sed '1,$s_'PARAMCMDLOGDIR'_'${PARAM_CMDLOGDIR}'_g' \
        | sed '1,$s_'PARAMCMDLOGSNAPSHOT'_'${PARAM_CMDLOG_SNAPSHOT}'_g' \
        | sed '1,$s_'PARAMSNAPSHOTS'_'${PARAM_SNAPSHOTS}'_g' \
-       | sed '1,$s_'PARAM_SITESPERHOST'_'${SITESPERHOST}'_g' \
+       | sed '1,$s/'PARAM_SITESPERHOST'/'${SITESPERHOST}'/g' \
        > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
 
@@ -167,17 +167,8 @@ fi
 
 echo ${XS} Calling voltdb init... ${XE}
 
-
-if 
-       [ -r /voltdbdata/voltdbroot/licence.xml ]
-then
-       # Avoid issues with params and su by echo-ing in...
-       echo voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml -l ${LICFILE} | su - ubuntu
-else
-       # Avoid issues with params and su by echo-ing in...
-       echo voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml | su - ubuntu
-fi
-
+# Avoid issues with params and su by echo-ing in...
+echo voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml | su - ubuntu
 
 ls -alR ${MOUNTPOINT}/voltdbroot
 cat  /voltdbdata/voltdbroot/log/volt.log 
