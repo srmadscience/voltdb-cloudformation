@@ -35,7 +35,7 @@ You may change this and rerun the initialization step by running
 <deployment>
   <cluster kfactor="PARAM_KFACTOR" />
   <users>
-    <user name="admin" roles="administrator" password="PARAM_PASSWORD" />
+    <user name="admin" roles="administrator" password="PARAM_PASSWORD" sitesperhost="PARAM_SITESPERHOST"/>
   </users>
   <security enabled="true"/>
   <commandlog enabled="PARAM_CMDLOG_ENABLED" synchronous="PARAM_SYNC"/>
