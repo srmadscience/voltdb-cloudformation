@@ -47,6 +47,9 @@ apt update
 echo upgrade APT packages if needed...
 echo 'Y' | apt upgrade
 
+echo Make sure iperf3 is installed...
+echo 'Y' | apt install iperf3
+
 if
         [ ! -d ${MOUNTPOINT} ]
 then
