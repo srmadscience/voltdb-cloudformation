@@ -131,6 +131,19 @@ then
        PARAM_CMDLOG_SNAPSHOT=${MOUNTPOINT}/voltdbroot/cmdlogsnapshot
        PARAM_SNAPSHOTS=${MOUNTPOINT}/voltdbroot/snapshots
        
+       # Calculate sitesperhost
+       CPU_COUNT=`cat /proc/cpuinfo | grep processor | wc -l`
+       CPU_COUNT=`expr $CPU_COUNT \* 3`
+       CPU_COUNT=`expr $CPU_COUNT / 4`
+       SIBLING_COUNT=`cat /proc/cpuinfo | grep siblings | head -1  | awk -F: '{ print $2}'`
+       SITESPERHOST=`expr $CPU_COUNT / $SIBLING_COUNT`
+
+       if
+              [ "$SITESPERHOST" -lt 8 ]
+       then
+              SITESPERHOST=8
+       fi
+       
        curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configxml_template \
        | sed '1,$s/'PARAM_PASSWORD'/'${PASSWD}'/g' \
        | sed '1,$s/'PARAM_KFACTOR'/'${KFACTOR}'/g' \
@@ -139,6 +152,7 @@ then
        | sed '1,$s_'PARAMCMDLOGDIR'_'${PARAM_CMDLOGDIR}'_g' \
        | sed '1,$s_'PARAMCMDLOGSNAPSHOT'_'${PARAM_CMDLOG_SNAPSHOT}'_g' \
        | sed '1,$s_'PARAMSNAPSHOTS'_'${PARAM_SNAPSHOTS}'_g' \
+       | sed '1,$s_'PARAM_SITESPERHOST'_'${SITESPERHOST}'_g' \
        > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
 
