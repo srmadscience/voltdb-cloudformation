@@ -22,7 +22,14 @@ if
 	[ "$VRUN" = "" ]
 then
 	echo `date` Starting VoltDB... | tee -a  $LOGFILE
- 	nohup voltdb start  --dir=${MOUNTPOINT}  --host=${VDB_HOSTS}  2>&1 >>  $LOGFILE  & 	
+	if 
+       		[ -r /voltdbdata/voltdbroot/licence.xml ]
+	then
+		nohup voltdb start  --dir=${MOUNTPOINT}  --host=${VDB_HOSTS} -l /voltdbdata/voltdbroot/licence.xml  2>&1 >>  $LOGFILE  & 
+	else
+		nohup voltdb start  --dir=${MOUNTPOINT}  --host=${VDB_HOSTS}  2>&1 >>  $LOGFILE  & 
+	fi
+ 		
 else	
 	echo `date` Already running... | tee -a  $LOGFILE
 fi
