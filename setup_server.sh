@@ -40,6 +40,7 @@ XS="\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n\n"
 XE="\n\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 DEVICE=/dev/xvdf
 MOUNTPOINT=/voltdbdata
+LICFILE=${MOUNTPOINT}/voltdbroot/licence.xml
 
 echo Update APT...
 apt update
@@ -130,13 +131,6 @@ then
        PARAM_CMDLOG_SNAPSHOT=${MOUNTPOINT}/voltdbroot/cmdlogsnapshot
        PARAM_SNAPSHOTS=${MOUNTPOINT}/voltdbroot/snapshots
        
- #      for i in $PARAM_CMDLOGDIR $PARAM_CMDLOG_SNAPSHOT $PARAM_SNAPSHOTS log
- #      do
- #             mkdir -p ${i}
- #             chown ubuntu $i
- #      done
-       
-       
        curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configxml_template \
        | sed '1,$s/'PARAM_PASSWORD'/'${PASSWD}'/g' \
        | sed '1,$s/'PARAM_KFACTOR'/'${KFACTOR}'/g' \
@@ -158,8 +152,19 @@ then
 fi
 
 echo ${XS} Calling voltdb init... ${XE}
-# Avoid issues with params and su by echo-ing in...
-echo voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml | su - ubuntu
+
+
+if 
+       [ -r /voltdbdata/voltdbroot/licence.xml ]
+then
+       # Avoid issues with params and su by echo-ing in...
+       echo voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml -l ${LICFILE} | su - ubuntu
+else
+       # Avoid issues with params and su by echo-ing in...
+       echo voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml | su - ubuntu
+fi
+
+
 ls -alR ${MOUNTPOINT}/voltdbroot
 cat  /voltdbdata/voltdbroot/log/volt.log 
 
