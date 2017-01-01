@@ -23,7 +23,7 @@
 #  OTHER DEALINGS IN THE SOFTWARE.
 
 if
-       [ $# != 9 ]
+       [ $# != 8 ]
 then
        echo Usage: sudo server.sh ip1 ip2 ip3 kfactor cmdlogging password demotype instancetype
        exit 1
