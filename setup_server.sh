@@ -196,9 +196,10 @@ then
        rm /home/ubuntu/ubuntu.crontab
 fi
 
+echo ${XS} Updating demo files... ${XE}
+sh update_for_cluster.sh
 
-
-
+echo ${XS} Done.. ${XE}
 
 rm /home/ubuntu/PLEASE_WAIT.txt
 
