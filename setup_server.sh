@@ -46,23 +46,25 @@ LICFILE=${MOUNTPOINT}/voltdbroot/licence.xml
 echo Update APT...
 apt update
 
-echo upgrade APT packages if needed...
+echo ${XS}  Parsams = $* ${XS} 
+
+echo ${XS}  upgrade APT packages if needed...${XS} 
 echo 'Y' | apt upgrade
 
-echo Make sure iperf3 is installed...
+echo ${XS} Make sure iperf3 is installed...${XS} 
 echo 'Y' | apt install iperf3
 
 if
         [ ! -d ${MOUNTPOINT} ]
 then
-        echo Creating ${XS} ${MOUNTPOINT} mount point... ${XE}
+        echo  ${XS} Creating ${MOUNTPOINT} mount point... ${XE}
         mkdir ${MOUNTPOINT}
 fi
 
 if
         [ "`file -s ${DEVICE}`" = "${DEVICE}: data" ]
 then
-        echo ${XS} Creating filesystem on ${DEVICE}... ${XE}
+        echo ${XS} Creating filesystem on ${DEVICE}... ç
         mkfs -t ext4  ${DEVICE}
 fi
 
