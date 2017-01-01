@@ -4,6 +4,10 @@
 
 SEDFILE=/tmp/$$.sed
 FNAME=$1
+FDIRNAME=`dirname $FNAME` 
+FBASENAME=`basename $FNAME`
+echo $FDIRNAME $FBASENAME
+
 TEMPFILE=/tmp/$$.tmp
 
 echo 1,\$s_STARTUPLEADERHOST=\"localhost\"_STARTUPLEADERHOST=${VDB_LEADER}_g > ${SEDFILE}
