@@ -199,7 +199,7 @@ then
 fi
 
 echo ${XS} Updating demo files... ${XE}
-sh update_for_cluster.sh
+sh /home/ubuntu/update_for_cluster.sh
 
 echo ${XS} Done.. ${XE}
 
