@@ -34,4 +34,20 @@ else
 	echo `date` Already running... | tee -a  $LOGFILE
 fi
 
+#
+# See if iperf3 already running...
+#
+# See if VoltDB already running...
+VRUN=`ps -deaf | grep iperf3 |  grep -v grep`
+
+if 
+	[ "$VRUN" = "" ]
+then
+	echo `date` Starting iperf3... | tee -a  $LOGFILE
+	iperf3 -s -D	
+else	
+	echo `date` Already running... | tee -a  $LOGFILE
+fi
+
+
 exit 0
