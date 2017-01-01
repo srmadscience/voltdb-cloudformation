@@ -166,14 +166,17 @@ then
        > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
 
-if 
-       [ ! -r /home/ubuntu/start_voltdb_if_needed.sh ]
-then
-       echo ${XS} Creating start_voltdb_if_needed.sh... ${XE}
-       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/start_voltdb_if_needed.sh  > /home/ubuntu/start_voltdb_if_needed.sh
-       chown ubuntu /home/ubuntu/start_voltdb_if_needed.sh
-       chmod 755 /home/ubuntu/start_voltdb_if_needed.sh
-fi
+for i in start_voltdb_if_needed.sh update_for_cluster.sh update_java_clients.sh update_example_hosts.sh
+do
+       if 
+              [ ! -r /home/ubuntu/${i} ]
+       then
+              echo ${XS} Creating ${i}... ${XE}
+              curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/${i}  > /home/ubuntu/${i}
+              chown ubuntu ${i}
+              chmod 755 ${i}
+       fi
+done
 
 echo ${XS} Calling voltdb init... ${XE}
 
