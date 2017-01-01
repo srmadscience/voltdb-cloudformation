@@ -174,7 +174,7 @@ do
               echo ${XS} Creating ${i}... ${XE}
               curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/${i}  > /home/ubuntu/${i}
               chown ubuntu ${i}
-              chmod /home/ubuntu/755 ${i}
+              chmod o+rwx /home/ubuntu/${i}
        fi
 done
 
