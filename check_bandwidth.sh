@@ -1,4 +1,4 @@
-!/bin/sh
+#!/bin/sh
 
 ITYPE=`ec2metadata --instance-type`
 SECS=30
