@@ -54,6 +54,9 @@ echo 'Y' | apt upgrade
 echo ${XS} Make sure iperf3 is installed...${XS} 
 echo 'Y' | apt install iperf3
 
+echo ${XS} Make sure cloud-utils is installed..${XS} 
+echo Y | sudo apt install cloud-utils
+
 if
         [ ! -d ${MOUNTPOINT} ]
 then
