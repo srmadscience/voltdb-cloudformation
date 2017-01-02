@@ -171,7 +171,7 @@ then
        > ${MOUNTPOINT}/voltdbroot/config.xml
 fi
 
-for i in start_voltdb_if_needed.sh update_for_cluster.sh update_java_clients.sh update_example_hosts.sh
+for i in start_voltdb_if_needed.sh update_for_cluster.sh update_java_clients.sh update_example_hosts.sh check_bandwidth.sh
 do
        if 
               [ ! -r /home/ubuntu/${i} ]
