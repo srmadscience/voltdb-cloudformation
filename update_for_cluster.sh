@@ -23,6 +23,8 @@
 #  OTHER DEALINGS IN THE SOFTWARE.
 
 . /home/ubuntu/.profile
+PATH=$HOME/voltdb-pro/bin:$PATH
+export PATH
 
 cd /home/ubuntu
 find voltdb-pro/examples -name  '*Benchmark.java' -print -exec /home/ubuntu/update_java_clients.sh  {} \;
