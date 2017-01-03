@@ -1,7 +1,7 @@
 #!/bin/sh
 
-. $HOME/.profile
+. /home/ubuntu/.profile
 
-find voltdb-pro/examples -name run.sh -print -exec ${HOME}/update_example_hosts.sh {} \;
-find voltdb-pro/examples -name  '*Benchmark.java' -print -exec ${HOME}/update_java_clients.sh  {} \;
+find voltdb-pro/examples -name run.sh -print -exec /home/ubuntu/update_example_hosts.sh {} \;
+find voltdb-pro/examples -name  '*Benchmark.java' -print -exec /home/ubuntu/update_java_clients.sh  {} \;
 
