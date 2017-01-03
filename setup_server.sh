@@ -244,7 +244,7 @@ then
        curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/ubuntu.crontab  > /home/ubuntu/ubuntu.crontab
        crontab -u ubuntu /home/ubuntu/ubuntu.crontab 
        rm /home/ubuntu/ubuntu.crontab
-       crontab -l
+       crontab  -u ubuntu -l
 fi
 
 echo ${XS} Updating demo files... ${XE}
