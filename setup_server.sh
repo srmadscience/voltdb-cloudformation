@@ -46,7 +46,7 @@ LICFILE=${MOUNTPOINT}/voltdbroot/licence.xml
 echo Update APT...
 apt update -y
 
-echo ${XS}  Parsams = $* ${XS} 
+echo ${XS}  Params = $* ${XS} 
 
 echo ${XS}  upgrade APT packages if needed...${XS} 
 apt upgrade -y
