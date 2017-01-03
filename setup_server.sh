@@ -53,6 +53,8 @@ sleep 5
 echo ${XS}  upgrade APT packages if needed...${XS} 
 apt upgrade -y
 
+sleep 5
+
 echo ${XS} Make sure iperf3 is installed...${XS} 
 apt install -y iperf3
 
