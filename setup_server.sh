@@ -47,8 +47,8 @@ echo ${XS} Params = $* ${XS}
 
 sleep 30
 
-echo ${XS} Update APT...${XS} 
-apt update -y
+#echo ${XS} Update APT...${XS} 
+#apt update -y
 
 sleep 5
 
