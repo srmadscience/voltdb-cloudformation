@@ -45,6 +45,8 @@ LICFILE=${MOUNTPOINT}/voltdbroot/licence.xml
 
 echo ${XS} Params = $* ${XS} 
 
+sleep 30
+
 echo ${XS} Update APT...${XS} 
 apt update -y
 
@@ -207,7 +209,7 @@ then
 fi
 
 echo ${XS} Updating demo files... ${XE}
-su ubuntu sh /home/ubuntu/update_for_cluster.sh
+su ubuntu /home/ubuntu/update_for_cluster.sh
 
 echo ${XS} Done.. ${XE}
 
