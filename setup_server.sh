@@ -77,8 +77,8 @@ then
         fi
 fi
 
-echo ${XS} Update APT...${XS} 
-apt update -y
+#echo ${XS} Update APT...${XS} 
+#apt update -y
 
 echo ${XS}  upgrade APT packages if needed...${XS} 
 apt upgrade -y
