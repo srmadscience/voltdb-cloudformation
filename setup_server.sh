@@ -45,17 +45,26 @@ LICFILE=${MOUNTPOINT}/voltdbroot/licence.xml
 
 echo ${XS} Params = $* ${XS} 
 
-sleep 30
+if
+        [ -r /var/lib/dpkg/lock ]
+then
+        FOWNER=`lsof /var/lib/dpkg/lock`
 
-#echo ${XS} Update APT...${XS} 
-#apt update -y
+        if 
+                [ "$FOWNER" = "" ]
+        then
+                echo Removing /var/lib/dpkg/lock - nobody is using it...
+        else
+                echo existing because /var/lib/dpkg/lock in use by $FOWNER
+                exit 1
+        fi
+fi
 
-sleep 5
+echo ${XS} Update APT...${XS} 
+apt update -y
 
 echo ${XS}  upgrade APT packages if needed...${XS} 
 apt upgrade -y
-
-sleep 5
 
 echo ${XS} Make sure iperf3 is installed...${XS} 
 apt install -y iperf3
