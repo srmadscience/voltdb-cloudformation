@@ -43,9 +43,9 @@ DEVICE=/dev/xvdf
 MOUNTPOINT=/voltdbdata
 LICFILE=${MOUNTPOINT}/voltdbroot/licence.xml
 
-echo ${XS}  Params = $* ${XS} 
+echo ${XS} Params = $* ${XS} 
 
-echo${XS} Update APT...${XS} 
+echo ${XS} Update APT...${XS} 
 apt update -y
 
 sleep 5
@@ -205,7 +205,7 @@ then
 fi
 
 echo ${XS} Updating demo files... ${XE}
-sh /home/ubuntu/update_for_cluster.sh
+su ubuntu sh /home/ubuntu/update_for_cluster.sh
 
 echo ${XS} Done.. ${XE}
 
