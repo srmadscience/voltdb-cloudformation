@@ -48,14 +48,31 @@ echo ${XS} Params = $* ${XS}
 if
         [ -r /var/lib/dpkg/lock ]
 then
-        FOWNER=`lsof /var/lib/dpkg/lock`
+        ATTEMPTS=1
 
+        while 
+                [ "$ATTEMPTS" -lt 10 ]
+        do
+                ATTEMPTS=`expr $ATTEMPTS + 1`
+                FOWNER=`lsof /var/lib/dpkg/lock`
+
+                if 
+                        [ "$FOWNER" = "" ]
+                then
+                        break;
+                fi
+
+                echo Waiting 30 seconds to see if /var/lib/dpkg/lock is still in use...
+                sleep 30
+        done
+
+        FOWNER=`lsof /var/lib/dpkg/lock`
         if 
                 [ "$FOWNER" = "" ]
         then
                 echo Removing /var/lib/dpkg/lock - nobody is using it...
         else
-                echo existing because /var/lib/dpkg/lock in use by $FOWNER
+                echo exiting because /var/lib/dpkg/lock in use by $FOWNER
                 exit 1
         fi
 fi
