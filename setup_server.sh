@@ -43,10 +43,12 @@ DEVICE=/dev/xvdf
 MOUNTPOINT=/voltdbdata
 LICFILE=${MOUNTPOINT}/voltdbroot/licence.xml
 
-echo Update APT...
+echo ${XS}  Params = $* ${XS} 
+
+echo${XS} Update APT...${XS} 
 apt update -y
 
-echo ${XS}  Params = $* ${XS} 
+sleep 5
 
 echo ${XS}  upgrade APT packages if needed...${XS} 
 apt upgrade -y
