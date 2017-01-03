@@ -200,7 +200,7 @@ then
        if
               [ "$INSTANCETYPE" = "m4.16xlarge" ]
        then
-              SITESPERHOST=16
+              SITESPERHOST=24
        fi
 
        
