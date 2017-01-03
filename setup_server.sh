@@ -44,18 +44,18 @@ MOUNTPOINT=/voltdbdata
 LICFILE=${MOUNTPOINT}/voltdbroot/licence.xml
 
 echo Update APT...
-apt update
+apt update -y
 
 echo ${XS}  Parsams = $* ${XS} 
 
 echo ${XS}  upgrade APT packages if needed...${XS} 
-echo 'Y' | apt upgrade
+apt upgrade -y
 
 echo ${XS} Make sure iperf3 is installed...${XS} 
-echo 'Y' | apt install iperf3
+apt install -y iperf3
 
 echo ${XS} Make sure cloud-utils is installed..${XS} 
-echo Y | sudo apt install cloud-utils
+apt install -y cloud-utils
 
 if
         [ ! -d ${MOUNTPOINT} ]
@@ -204,9 +204,6 @@ fi
 
 echo ${XS} Updating demo files... ${XE}
 sh /home/ubuntu/update_for_cluster.sh
-
-
-
 
 echo ${XS} Done.. ${XE}
 
