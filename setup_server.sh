@@ -129,6 +129,19 @@ then
               echo "  . /voltdbdata/voltdbroot/profile_voltdb" >>   /home/ubuntu/.bashrc
               echo "fi" >>   /home/ubuntu/.bashrc
         fi
+        
+        if
+              [ "`grep profile_voltdb /home/ubuntu/.profile`" = "" ]
+        then
+              echo ${XS} Adding call to  ${MOUNTPOINT}/voltdbroot/profile_voltdb to $HOME/.profile ... ${XE}
+              echo \# >>   /home/ubuntu/.profile
+              echo \# VoltDB specific stuff >>  /home/ubuntu/.profile
+              echo \# >>   /home/ubuntu/.profile
+
+              echo "if [ -f \"/voltdbdata/voltdbroot/profile_voltdb\" ]; then" >>   /home/ubuntu/.profile
+              echo "  . /voltdbdata/voltdbroot/profile_voltdb" >>   /home/ubuntu/.profile
+              echo "fi" >>   /home/ubuntu/.profile
+        fi
 fi
 
 if  
