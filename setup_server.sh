@@ -228,23 +228,29 @@ do
        fi
 done
 
-echo ${XS} Calling voltdb init... ${XE}
+MYIP=`curl http://169.254.169.254/latest/meta-data/local-ipv4`
 
-# Avoid issues with params and su by echo-ing in...
-echo voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml | su - ubuntu
-
-ls -alR ${MOUNTPOINT}/voltdbroot
-cat  /voltdbdata/voltdbroot/log/volt.log 
-
-crontab -u ubuntu -l > /dev/null
-if 
-       [ "$?" = "1" ]
+if
+       [ ${MYIP} = "172.31.23.43" -o ${MYIP} = "172.31.23.34" -o ${MYIP} = "172.31.31.73" ]
 then
-       echo ${XS} Creating crontab... ${XE}
-       curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/ubuntu.crontab  > /home/ubuntu/ubuntu.crontab
-       crontab -u ubuntu /home/ubuntu/ubuntu.crontab 
-       rm /home/ubuntu/ubuntu.crontab
-       crontab  -u ubuntu -l
+       echo ${XS} Calling voltdb init... ${XE}
+
+       # Avoid issues with params and su by echo-ing in...
+       echo voltdb init -D ${MOUNTPOINT}/voltdbroot --config=${MOUNTPOINT}/voltdbroot/config.xml | su - ubuntu
+
+       ls -alR ${MOUNTPOINT}/voltdbroot
+       cat  /voltdbdata/voltdbroot/log/volt.log 
+
+       crontab -u ubuntu -l > /dev/null
+       if 
+              [ "$?" = "1" ]
+       then
+              echo ${XS} Creating crontab... ${XE}
+              curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/ubuntu.crontab  > /home/ubuntu/ubuntu.crontab
+              crontab -u ubuntu /home/ubuntu/ubuntu.crontab 
+              rm /home/ubuntu/ubuntu.crontab
+              crontab  -u ubuntu -l
+        fi
 fi
 
 echo ${XS} Updating demo files... ${XE}
