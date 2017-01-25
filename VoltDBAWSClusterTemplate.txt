@@ -1,0 +1,614 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "voltdbvpc": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "172.31.0.0/16",
+        "InstanceTenancy": "default",
+        "EnableDnsSupport": "true",
+        "EnableDnsHostnames": "true",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "VoltDB VPC"
+          }
+        ]
+      }
+    },
+    "voltdbsubnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.31.16.0/20",
+        "AvailabilityZone": "us-east-1a",
+        "VpcId": {
+          "Ref": "voltdbvpc"
+        }
+      }
+    },
+    "voltdbigw": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+      }
+    },
+    "voltdbdhcpopts": {
+      "Type": "AWS::EC2::DHCPOptions",
+      "Properties": {
+        "DomainName": "ec2.internal",
+        "DomainNameServers": [
+          "AmazonProvidedDNS"
+        ]
+      }
+    },
+    "voltdbacl": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "voltdbvpc"
+        }
+      }
+    },
+    "voltdbrt": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "voltdbvpc"
+        }
+      }
+    },
+    "voltdbinstance1": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "DisableApiTermination": "false",
+        "InstanceInitiatedShutdownBehavior": "stop",
+        "EbsOptimized": "true",
+        "ImageId": "ami-00a2a917",
+        "InstanceType": { "Ref" : "InstanceTypeParameter" },
+        "KeyName": "VDB01",
+        "Monitoring": "false",
+        "PlacementGroupName": "VDB_Place_Group",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "VoltDB Node 1"
+          }
+        ],
+	"UserData" : 
+{ "Fn::Base64" : 
+{ "Fn::Join" : [ " ", [ 
+"#!/bin/sh \n curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/setup_server.sh > /home/ubuntu/setup_server.sh \n chmod 755 /home/ubuntu/setup_server.sh \n sh /home/ubuntu/setup_server.sh", "172.31.23.43", "172.31.23.34", "172.31.31.73"
+, { "Ref" : "KFactor" }
+, { "Ref" : "CmdLogging" }
+, { "Ref" : "Password" }
+, { "Ref" : "DemoParameter" }
+, { "Ref" : "InstanceTypeParameter" }
+, " 2>&1 > /home/ubuntu/setup_server.lst  \n"
+ ] ] }
+}
+,
+        "Volumes": [
+          {
+            "Device": "/dev/sdf",
+            "VolumeId": {
+              "Ref": "voltdbvolume1"
+            }
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "DeleteOnTermination": "true",
+            "DeviceIndex": 0,
+            "SubnetId": {
+              "Ref": "voltdbsubnet"
+            },
+            "PrivateIpAddresses": [
+              {
+                "PrivateIpAddress": "172.31.23.43",
+                "Primary": "true"
+              }
+            ],
+            "GroupSet": [
+              {
+                "Ref": "sgVoltDBSecurityGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true"
+          }
+        ]
+      }
+    },
+    "voltdbinstance2": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "DisableApiTermination": "false",
+        "InstanceInitiatedShutdownBehavior": "stop",
+        "EbsOptimized": "true",
+        "ImageId": "ami-00a2a917",
+        "InstanceType": { "Ref" : "InstanceTypeParameter" },
+        "KeyName": "VDB01",
+        "Monitoring": "false",
+        "PlacementGroupName": "VDB_Place_Group",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "VoltDB Node 2"
+          }
+        ],
+	"UserData" : 
+{ "Fn::Base64" : 
+{ "Fn::Join" : [ " ", [ 
+"#!/bin/sh \n curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/setup_server.sh > /home/ubuntu/setup_server.sh \n chmod 755 /home/ubuntu/setup_server.sh \n sh /home/ubuntu/setup_server.sh", "172.31.23.43", "172.31.23.34", "172.31.31.73"
+, { "Ref" : "KFactor" }
+, { "Ref" : "CmdLogging" }
+, { "Ref" : "Password" }
+, { "Ref" : "DemoParameter" }
+, { "Ref" : "InstanceTypeParameter" }
+, " 2>&1 > /home/ubuntu/setup_server.lst  \n"
+ ] ] }
+}
+,
+        "Volumes": [
+          {
+            "Device": "/dev/sdf",
+            "VolumeId": {
+              "Ref": "voltdbvolume2"
+            }
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "DeleteOnTermination": "true",
+            "DeviceIndex": 0,
+            "SubnetId": {
+              "Ref": "voltdbsubnet"
+            },
+            "PrivateIpAddresses": [
+              {
+                "PrivateIpAddress": "172.31.23.34",
+                "Primary": "true"
+              }
+            ],
+            "GroupSet": [
+              {
+                "Ref": "sgVoltDBSecurityGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true"
+          }
+        ]
+      }
+    },
+    "voltdbinstance3": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "DisableApiTermination": "false",
+        "InstanceInitiatedShutdownBehavior": "stop",
+        "EbsOptimized": "true",
+        "ImageId": "ami-00a2a917",
+        "InstanceType": { "Ref" : "InstanceTypeParameter" },
+        "KeyName": "VDB01",
+        "Monitoring": "false",
+        "PlacementGroupName": "VDB_Place_Group",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "VoltDB Node 3"
+          }
+        ],
+	"UserData" : 
+{ "Fn::Base64" : 
+{ "Fn::Join" : [ " ", [ 
+"#!/bin/sh \n curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/setup_server.sh > /home/ubuntu/setup_server.sh \n chmod 755 /home/ubuntu/setup_server.sh \n sh /home/ubuntu/setup_server.sh", "172.31.23.43", "172.31.23.34", "172.31.31.73"
+, { "Ref" : "KFactor" }
+, { "Ref" : "CmdLogging" }
+, { "Ref" : "Password" }
+, { "Ref" : "DemoParameter" }
+, { "Ref" : "InstanceTypeParameter" }
+, " 2>&1 > /home/ubuntu/setup_server.lst  \n"
+ ] ] }
+}
+,
+        "Volumes": [
+          {
+            "Device": "/dev/sdf",
+            "VolumeId": {
+              "Ref": "voltdbvolume3"
+            }
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "DeleteOnTermination": "true",
+            "DeviceIndex": 0,
+            "SubnetId": {
+              "Ref": "voltdbsubnet"
+            },
+            "PrivateIpAddresses": [
+              {
+                "PrivateIpAddress": "172.31.31.73",
+                "Primary": "true"
+              }
+            ],
+            "GroupSet": [
+              {
+                "Ref": "sgVoltDBSecurityGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true"
+          }
+        ]
+      }
+    },
+    "voltdbinstance4": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "DisableApiTermination": "false",
+        "InstanceInitiatedShutdownBehavior": "stop",
+        "EbsOptimized": "true",
+        "ImageId": "ami-00a2a917",
+        "InstanceType": { "Ref" : "InstanceTypeParameter" },
+        "KeyName": "VDB01",
+        "Monitoring": "false",
+        "PlacementGroupName": "VDB_Place_Group",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "VoltDB Node Client Host"
+          }
+        ],
+	"UserData" : 
+{ "Fn::Base64" : 
+{ "Fn::Join" : [ " ", [ 
+"#!/bin/sh \n curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/setup_server.sh > /home/ubuntu/setup_server.sh \n chmod 755 /home/ubuntu/setup_server.sh \n sh /home/ubuntu/setup_server.sh", "172.31.23.43", "172.31.23.34", "172.31.31.73"
+, { "Ref" : "KFactor" }
+, { "Ref" : "CmdLogging" }
+, { "Ref" : "Password" }
+, { "Ref" : "DemoParameter" }
+, { "Ref" : "InstanceTypeParameter" }
+, " 2>&1 > /home/ubuntu/setup_server.lst  \n"
+ ] ] }
+},
+        "Volumes": [
+          {
+            "Device": "/dev/sdf",
+            "VolumeId": {
+              "Ref": "voltdbvolume4"
+            }
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "DeleteOnTermination": "true",
+            "DeviceIndex": 0,
+            "SubnetId": {
+              "Ref": "voltdbsubnet"
+            },
+            "PrivateIpAddresses": [
+              {
+                "PrivateIpAddress": "172.31.23.42",
+                "Primary": "true"
+              }
+            ],
+            "GroupSet": [
+              {
+                "Ref": "sgVoltDBSecurityGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true"
+          }
+        ]
+      }
+    },
+    "voltdbvolume1": {
+      "Type": "AWS::EC2::Volume",
+      "Properties": {
+        "AvailabilityZone": "us-east-1a",
+        "Size": {
+          "Ref": "StorageSize"
+        } ,
+        "VolumeType": {
+          "Ref": "StorageType"
+        }
+      }
+    },
+    "voltdbvolume3": {
+      "Type": "AWS::EC2::Volume",
+      "Properties": {
+        "AvailabilityZone": "us-east-1a",
+        "Size": {
+          "Ref": "StorageSize"
+        } ,
+        "VolumeType": {
+          "Ref": "StorageType"
+        }
+      }
+    },
+    "voltdbvolume2": {
+      "Type": "AWS::EC2::Volume",
+      "Properties": {
+        "AvailabilityZone": "us-east-1a",
+        "Size": {
+          "Ref": "StorageSize"
+        } ,
+        "VolumeType": {
+          "Ref": "StorageType"
+        }
+      }
+    },
+    "voltdbvolume4": {
+      "Type": "AWS::EC2::Volume",
+      "Properties": {
+        "AvailabilityZone": "us-east-1a",
+        "Size": {
+          "Ref": "StorageSize"
+        } ,
+        "VolumeType": {
+          "Ref": "StorageType"
+        }
+      }
+    },
+    "sgVoltDBSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "VoltDBSecurityGroup",
+        "VpcId": {
+          "Ref": "voltdbvpc"
+        }
+      }
+    },
+    "voltdbacl1": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "true",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "voltdbacl"
+        }
+      }
+    },
+    "voltdbacl2": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "voltdbacl"
+        }
+      }
+    },
+    "voltdbsubnetacl1": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "voltdbacl"
+        },
+        "SubnetId": {
+          "Ref": "voltdbsubnet"
+        }
+      }
+    },
+    "voltdbgwa": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "voltdbvpc"
+        },
+        "InternetGatewayId": {
+          "Ref": "voltdbigw"
+        }
+      }
+    },
+    "voltdbsubnetrta": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "voltdbrt"
+        },
+        "SubnetId": {
+          "Ref": "voltdbsubnet"
+        }
+      }
+    },
+    "voltdbsubnetroute1": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "voltdbrt"
+        },
+        "GatewayId": {
+          "Ref": "voltdbigw"
+        }
+      },
+      "DependsOn": "voltdbgwa"
+    },
+    "voltdbdhcpopts1": {
+      "Type": "AWS::EC2::VPCDHCPOptionsAssociation",
+      "Properties": {
+        "VpcId": {
+          "Ref": "voltdbvpc"
+        },
+        "DhcpOptionsId": {
+          "Ref": "voltdbdhcpopts"
+        }
+      }
+    },
+    "voltdbingress8080": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "8080",
+        "ToPort": "8080",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "voltdingress7181": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "7181",
+        "ToPort": "7181",
+        "SourceSecurityGroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "SourceSecurityGroupOwnerId": "588031073230"
+      }
+    },
+    "voltdbingress22": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "22",
+        "ToPort": "22",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "voltdbingress21211": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "21211",
+        "ToPort": "21211",
+        "SourceSecurityGroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "SourceSecurityGroupOwnerId": "588031073230"
+      }
+    },
+    "voltdbingress5555": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "5555",
+        "ToPort": "5555",
+        "SourceSecurityGroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "SourceSecurityGroupOwnerId": "588031073230"
+      }
+    },
+    "voltdbingress3021": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "3021",
+        "ToPort": "3021",
+        "SourceSecurityGroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "SourceSecurityGroupOwnerId": "588031073230"
+      }
+    },
+    "voltdbingress21212": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "21212",
+        "ToPort": "21212",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+   "voltdbingress5201": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "5201",
+        "ToPort": "5201",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "voltdbegress0000": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgVoltDBSecurityGroup"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    }
+  },
+  "Description": "",
+"Parameters" : {
+  "KeyPair" : {
+    "Description" : "Amazon EC2 Key Pair",
+    "Type" : "AWS::EC2::KeyPair::KeyName"
+  },
+ "KFactor" : {
+    "Default" : "0",
+    "Description" : "Number of extra copies of data kept",
+    "Type" : "Number",
+    "MinValue" : "0",
+    "MaxValue" : "2"
+  },
+    "CmdLogging" : {
+    "Default" : "false",
+    "Description" : "Set to Yes to emable command logging",
+    "Type" : "String",
+"AllowedValues" : [ "false","true"]
+  },
+ "StorageType" : {
+    "Type" : "String",
+    "Default" : "sc1",
+    "AllowedValues" : ["sc1","st1","gp2" ] ,
+    "Description" : "Storage type. io1 costs money - beware!"
+  },
+ "StorageSize" : {
+    "Default" : "4096",
+    "Description" : "GiB of disk",
+    "Type" : "Number",
+    "MinValue" : "256",
+    "MaxValue" : "16384"
+  },
+ "InstanceTypeParameter" : {
+    "Type" : "String",
+    "Default" : "m4.large",
+    "AllowedValues" : [ "m4.large","m4.xlarge","m4.2xlarge","m4.4xlarge","m4.10xlarge","m4.16xlarge"],
+    "Description" : "Enter m4.large. Default is m4.large."
+  },
+ "DemoParameter" : {
+    "Type" : "String",
+    "Default" : "Running_DB",
+    "AllowedValues" : [ "Running_DB"],
+    "Description" : "What you want to happen when system finishes booting"
+  },
+"Password" : {
+    "NoEcho" : "true",
+    "Default" : "idontknow",
+    "Description" : "The database admin account password",
+    "Type" : "String",
+    "MinLength" : "1",
+    "MaxLength" : "30",
+    "AllowedPattern" : "[a-zA-Z0-9]*"
+  }
+}
+}
