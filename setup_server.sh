@@ -203,6 +203,7 @@ then
               SITESPERHOST=24
        fi
 
+SITESPERHOST=6
        
        curl https://raw.githubusercontent.com/srmadscience/voltdb-cloudformation/master/configxml_template \
        | sed '1,$s/'PARAM_PASSWORD'/'${PASSWD}'/g' \
