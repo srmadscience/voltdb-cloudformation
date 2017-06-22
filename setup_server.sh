@@ -188,7 +188,7 @@ then
        if
               [ "$INSTANCETYPE" = "m4.4xlarge" ]
        then
-              SITESPERHOST=8
+              SITESPERHOST=6
        fi
        
        if
